@@ -6,27 +6,13 @@ using UnityEditor;
 [CustomEditor(typeof(Cannon))]
 public class CannonInspector : Editor
 {
-	string[] targetModeOptions = { "X and Y", "X only", "Y only" };
+	//string[] targetModeOptions = { "X and Y", "X only", "Y only" };
 
 	public override void OnInspectorGUI()
 	{
 		base.OnInspectorGUI();
 
 		GameObject go = GameObject.Find(target.name);
-
-		/*
-		//incase the GameObject ins't selected
-		try
-		{
-			go = (GameObject)target;
-		}
-		catch(System.InvalidCastException)
-		{
-			//handle exception
-			Debug.Log("SD");
-			return;
-		}
-		*/
 
 		//incase you don't have the Cannon component attached to this GameObject
 		if(go.GetComponent<Cannon>() == null)
@@ -39,9 +25,17 @@ public class CannonInspector : Editor
 
 		if(GUILayout.Button("Fire"))
 		{
-			go.GetComponent<Cannon>().StartCoroutine("FireShot");
+			if(Application.isPlaying == true)
+			{
+				go.GetComponent<Cannon>().StartCoroutine("FireShot");
+			}
+			else
+			{
+				Debug.LogError("You must be in PlayMode to fire the cannon");
+			}
 		}
 
-		go.GetComponent<Cannon>().targetMode = EditorGUILayout.Popup("Target mode", go.GetComponent<Cannon>().targetMode,  targetModeOptions);
+		
+		//go.GetComponent<Cannon>().targetMode = EditorGUILayout.Popup("Target mode", go.GetComponent<Cannon>().targetMode,  targetModeOptions);
 	}
 }

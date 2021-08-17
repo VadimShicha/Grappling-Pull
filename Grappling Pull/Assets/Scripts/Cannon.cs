@@ -6,12 +6,13 @@ public class Cannon : MonoBehaviour
 {
     public GameObject bullet;
 
-    public GameObject target;
+    public Collider2D target;
 
     public float fireRate = 3;
     public float fireSpeed = 0.3f;
 
-    bool firing = false;
+    public bool destroyBullets = true;
+    public bool roundBulletPositions = true;
 
     [HideInInspector]
     public int targetMode = 0;
@@ -20,54 +21,63 @@ public class Cannon : MonoBehaviour
     //2 - verticle only
 
     List<GameObject> bullets = new List<GameObject>();
+    bool firing = false;
 
 	void FixedUpdate()
 	{
-        int bulletsLength = bullets.Count;
+        try
+        {
+            int bulletsLength = bullets.Count;
 
-        for(int i = 0; i < bulletsLength; i++)
-		{
-            try
-			{
-                Vector3 moveVel = Vector3.zero;
-
-                //x and y
-                if(targetMode == 0)
-				{
-                    moveVel = (Vector3.MoveTowards(bullets[i].transform.position, target.transform.position, fireSpeed) - bullets[i].transform.position);
-				}
-                //x only
-                else if(targetMode == 1)
-				{
-                    Vector3 targetPos = target.transform.position;
-                    targetPos.y = bullets[i].transform.position.y;
-
-                    moveVel = (Vector3.MoveTowards(bullets[i].transform.position, targetPos, fireSpeed) - bullets[i].transform.position);
-                }
-                //y only
-                else if(targetMode == 2)
+            for (int i = 0; i < bulletsLength; i++)
+            {
+                if(roundBulletPositions == true)
                 {
-                    Vector3 targetPos = target.transform.position;
-                    targetPos.x = bullets[i].transform.position.x;
-
-                    moveVel = (Vector3.MoveTowards(bullets[i].transform.position, targetPos, fireSpeed) - bullets[i].transform.position);
+                    if (Vector3Int.RoundToInt(bullets[i].transform.position) == Vector3Int.RoundToInt(target.transform.position))
+                    {
+                        Destroy(bullets[i]);
+                        bullets.RemoveAt(i);
+                        continue;
+                    }
+                }
+                else if(roundBulletPositions == false)
+                {
+                    if (bullets[i].transform.position == target.transform.position)
+                    {
+                        Destroy(bullets[i]);
+                        bullets.RemoveAt(i);
+                        continue;
+                    }
                 }
 
 
-                bullets[i].GetComponent<Rigidbody2D>().velocity = moveVel;
-			}
-            catch(System.NullReferenceException)
-			{
-                Debug.LogError("You need to have a Rigidbody2D on your bullet");
-			}
-		}
+                try
+                {
+                    Vector3 moveVel = Vector3.zero;
 
-		if(firing == false)
-		{
-            StartCoroutine("FireShot");
-            firing = true;
-		}
-	}
+                    moveVel = Vector3.MoveTowards(bullets[i].transform.position, target.transform.position, fireSpeed) - bullets[i].transform.position;
+
+                    bullets[i].GetComponent<Rigidbody2D>().velocity = moveVel;
+                }
+                catch(System.NullReferenceException)
+                {
+                    Debug.LogError("You need to have a Rigidbody2D on your bullet");
+                }
+            }
+
+
+            if(firing == false)
+            {
+                StartCoroutine("FireShot");
+                firing = true;
+            }
+
+        }
+        catch(System.ArgumentOutOfRangeException)
+        {
+            //handle exception
+        }
+    }
 
 	IEnumerator FireShot()
 	{
@@ -79,5 +89,4 @@ public class Cannon : MonoBehaviour
         yield return new WaitForSeconds(fireRate);
         firing = false;
     }
-
 }
