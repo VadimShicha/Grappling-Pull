@@ -5,19 +5,16 @@ using UnityEngine;
 public class Main : MonoBehaviour
 {
     public GameObject player;
-	public GameObject grapplingHook;
 
 	public GameObject scope;
 
-	public LayerMask grapplingMask;
-
-
-
 	public float moveSpeed = 4;
+
+	public float grappleCooldown = 2;
     public float grappleSpeed = 0.3f;
+	public float grapplePower = 5;
 
-	public float grappleLength = 5;
-
+	bool grappling = false;
 
 	void Update()
 	{
@@ -32,31 +29,24 @@ public class Main : MonoBehaviour
 
 		if(Input.GetKeyDown(KeyCode.Mouse0))
 		{
-			grapple();
+			if(grappling == false)
+			{
+				StartCoroutine("Grapple");
+				grappling = true;
+			}
 		}
-
-		
 	}
 
-	void grapple()
+	IEnumerator Grapple()
 	{
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = Camera.main.nearClipPlane;
-		Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+		Vector3 moveVel = (Vector3.MoveTowards(player.transform.position, Camera.main.ScreenToWorldPoint(mousePos), grappleSpeed) - player.transform.position) * grapplePower;
 
-		RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, worldPos, grappleLength, grapplingMask);
-
-		if(hit)
-		{
-			print(hit.transform.gameObject.name);
-	
-
-			print(hit.transform.position);
-			player.GetComponent<Rigidbody2D>().velocity = hit.transform.position * grappleSpeed;
-		}
-
-		
-
+		player.GetComponent<Rigidbody2D>().velocity = moveVel;
 		scope.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+
+		yield return new WaitForSeconds(grappleCooldown);
+		grappling = false;
 	}
 }
