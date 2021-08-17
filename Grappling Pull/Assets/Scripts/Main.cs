@@ -34,6 +34,8 @@ public class Main : MonoBehaviour
 		{
 			grapple();
 		}
+
+		
 	}
 
 	void grapple()
