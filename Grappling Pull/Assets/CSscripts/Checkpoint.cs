@@ -5,6 +5,8 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
 	public int checkpointNumber = 0;
+	public ParticleSystem checkpointParticle;
+	public float particleLength = 2;
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -28,7 +30,15 @@ public class Checkpoint : MonoBehaviour
 		{
 			VarManager.checkpointPos = gameObject.transform.position;
 			VarManager.checkpointNumber = checkpointNumber;
+
+			checkpointParticle.Play();
+			StartCoroutine("Particle");
 		}
 	}
 
+	IEnumerator Particle()
+	{
+		yield return new WaitForSeconds(particleLength);
+		checkpointParticle.Stop();
+	}
 }

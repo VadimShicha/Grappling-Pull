@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Main : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class Main : MonoBehaviour
 	public Image[] hearts;
 
 	[Header("Options")]
+	public bool useTimer = true;
+
 	public int maxHealth = 3;
 	public static float health = 3;
 
@@ -89,6 +92,16 @@ public class Main : MonoBehaviour
 			}
 		}
 
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+			saveGame();
+		}
+
+		if(Input.GetKeyDown(KeyCode.L))
+		{
+			loadGame();
+		}
+
 		//scope GameObject
 		{
 			Vector3 mousePos = Input.mousePosition;
@@ -126,14 +139,9 @@ public class Main : MonoBehaviour
 		{
 			died();
 		}
-
-		if(Input.GetKeyDown(KeyCode.F))
-		{
-			VarManager.checkpointPos = new Vector3(4, 60, 0);
-			print(VarManager.checkpointPos);
-		}
 	}
 
+	
 	IEnumerator Grapple()
 	{
 		Vector3 mousePos = Input.mousePosition;
@@ -166,6 +174,7 @@ public class Main : MonoBehaviour
 		yield return new WaitForSeconds(grappleCooldown);
 		grappling = false;
 	}
+	
 
 	void died()
 	{
@@ -175,6 +184,31 @@ public class Main : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetSceneByName("SampleScene").name);
 
 		VarManager.respawned = true;
+	}
+
+	void saveGame()
+	{
+		PlayerPrefs.SetInt("CheckpointNumber", VarManager.checkpointNumber);
+	}
+
+	void loadGame()
+	{
+		if(PlayerPrefs.HasKey("CheckpointNumber"))
+		{
+			VarManager.checkpointNumber = PlayerPrefs.GetInt("CheckpointNumber");
+
+			GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
+
+			int checkpointsLength = checkpoints.Length;
+
+			for(int i = 0; i < checkpointsLength; i++)
+			{
+				if(checkpoints[i].GetComponent<Checkpoint>().checkpointNumber == VarManager.checkpointNumber)
+				{
+					player.transform.position = checkpoints[i].transform.position;
+				}
+			}
+		}
 	}
 
 	void setCheckpoint(Vector3 pos)
