@@ -2,11 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Bullet
+{
+    public GameObject bullet;
+    public bool hit;
+
+    public Bullet(GameObject _bullet)
+	{
+        bullet = _bullet;
+        hit = false;
+	}
+}
+
 public class Cannon : MonoBehaviour
 {
     public GameObject bullet;
 
     public Collider2D target;
+
+    public float damage = 1;
 
     public float fireRate = 3;
     public float fireSpeed = 0.3f;
@@ -20,7 +34,7 @@ public class Cannon : MonoBehaviour
     //1 - horizontal only
     //2 - verticle only
 
-    List<GameObject> bullets = new List<GameObject>();
+    List<Bullet> bullets = new List<Bullet>();
     bool firing = false;
 
 	void FixedUpdate()
@@ -29,22 +43,33 @@ public class Cannon : MonoBehaviour
         {
             int bulletsLength = bullets.Count;
 
-            for (int i = 0; i < bulletsLength; i++)
+            for(int i = 0; i < bulletsLength; i++)
             {
+                //check if the a bullet is colliding with the player
+                if(bullets[i].bullet.GetComponent<Collider2D>().IsTouching(Main.playerInstacne.GetComponent<Collider2D>()))
+				{
+                    if(bullets[i].hit == false)
+					{
+                        Main.health -= damage;
+                        bullets[i].hit = true;
+					}
+				}
+
+
                 if(roundBulletPositions == true)
                 {
-                    if (Vector3Int.RoundToInt(bullets[i].transform.position) == Vector3Int.RoundToInt(target.transform.position))
+                    if(Vector3Int.RoundToInt(bullets[i].bullet.transform.position) == Vector3Int.RoundToInt(target.transform.position))
                     {
-                        Destroy(bullets[i]);
+                        Destroy(bullets[i].bullet);
                         bullets.RemoveAt(i);
                         continue;
                     }
                 }
                 else if(roundBulletPositions == false)
                 {
-                    if (bullets[i].transform.position == target.transform.position)
+                    if (bullets[i].bullet.transform.position == target.transform.position)
                     {
-                        Destroy(bullets[i]);
+                        Destroy(bullets[i].bullet);
                         bullets.RemoveAt(i);
                         continue;
                     }
@@ -55,9 +80,9 @@ public class Cannon : MonoBehaviour
                 {
                     Vector3 moveVel = Vector3.zero;
 
-                    moveVel = Vector3.MoveTowards(bullets[i].transform.position, target.transform.position, fireSpeed) - bullets[i].transform.position;
+                    moveVel = Vector3.MoveTowards(bullets[i].bullet.transform.position, target.transform.position, fireSpeed) - bullets[i].bullet.transform.position;
 
-                    bullets[i].GetComponent<Rigidbody2D>().velocity = moveVel;
+                    bullets[i].bullet.GetComponent<Rigidbody2D>().velocity = moveVel;
                 }
                 catch(System.NullReferenceException)
                 {
@@ -84,7 +109,10 @@ public class Cannon : MonoBehaviour
         GameObject bulletClone = Instantiate(bullet);
         bulletClone.name = bullet.name + "Clone";
         bulletClone.transform.position = gameObject.transform.position;
-        bullets.Add(bulletClone);
+
+        Bullet _bullet = new Bullet(bulletClone);
+
+        bullets.Add(_bullet);
 
         yield return new WaitForSeconds(fireRate);
         firing = false;
