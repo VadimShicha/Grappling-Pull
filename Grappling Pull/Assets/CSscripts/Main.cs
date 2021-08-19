@@ -29,7 +29,7 @@ public class Main : MonoBehaviour
 	public Image[] hearts;
 
 	[Header("Options")]
-	public bool useTimer = true;
+	public static bool useSaver = false;
 
 	public int maxHealth = 3;
 	public static float health = 3;
@@ -195,14 +195,17 @@ public class Main : MonoBehaviour
 
 	public static void saveGame()
 	{
-		PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
-		PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
-		PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
+		if(Main.useSaver == true)
+		{
+			PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
+			PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
+			PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
+		}
 	}
 
 	void loadGame()
 	{
-		if(PlayerPrefs.HasKey("CheckpointPosX"))
+		if(PlayerPrefs.HasKey("CheckpointPosX") && useSaver)
 		{
 			VarManager.checkpointPos.x = PlayerPrefs.GetFloat("CheckpointPosX");
 			VarManager.checkpointPos.y = PlayerPrefs.GetFloat("CheckpointPosY");
