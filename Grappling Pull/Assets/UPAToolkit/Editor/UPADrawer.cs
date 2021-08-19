@@ -6,6 +6,10 @@ using System.IO;
 
 public class UPADrawer : MonoBehaviour {
 	
+	//a
+	public static Color gridColor;
+	//\a
+
 	private static UPAImage CurrentImg {
 		get { return UPAEditorWindow.CurrentImg; }
 		set { UPAEditorWindow.CurrentImg = value; }
@@ -39,7 +43,17 @@ public class UPADrawer : MonoBehaviour {
 		Texture2D bg = new Texture2D (1,1);
 		bg.SetPixel (0,0, Color.clear);
 		bg.Apply();
+
+		//a
+		Color defaultColor = GUI.color;
+		GUI.color = gridColor;
+		//\a
+
 		EditorGUI.DrawTextureTransparent (texPos, bg);
+
+		//a
+		GUI.color = defaultColor;
+		//\a
 		DestroyImmediate (bg);
 
 		//Calculate the final image from the layers list

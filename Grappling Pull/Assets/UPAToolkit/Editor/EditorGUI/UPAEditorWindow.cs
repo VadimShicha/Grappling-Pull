@@ -9,6 +9,8 @@ using UnityEditor;
 
 public class UPAEditorWindow : EditorWindow {
 	
+	
+
 	public static UPAEditorWindow window;	// The static instance of the window
 	
 	public static UPAImage CurrentImg;		// The img currently being edited
@@ -183,6 +185,11 @@ public class UPAEditorWindow : EditorWindow {
 				if (e.keyCode == KeyCode.Alpha0)
 				{
 					UPADrawer.setGridBGIndex(2);
+				}
+
+				if (e.keyCode == KeyCode.RightShift)
+				{
+					UPADrawer.gridColor = selectedColor;
 				}
 				//\a
 			}

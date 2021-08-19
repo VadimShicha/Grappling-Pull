@@ -183,7 +183,7 @@ public class Main : MonoBehaviour
 		}
 	}
 
-	void died()
+	public void died()
 	{
 		print("You died!");
 
