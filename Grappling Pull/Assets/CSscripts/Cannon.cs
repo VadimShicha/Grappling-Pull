@@ -32,6 +32,8 @@ public class Cannon : MonoBehaviour
 
     public bool destroyBullets = true;
     public bool roundBulletPositions = true;
+    public bool removeTarget = true;
+    public string targetName = "Target";
 
     [HideInInspector]
     public int targetMode = 0;
@@ -41,6 +43,15 @@ public class Cannon : MonoBehaviour
 
     List<Bullet> bullets = new List<Bullet>();
     bool firing = false;
+
+	void Start()
+	{
+        //remove the target when the game starts
+        if(removeTarget == true)
+		{
+    		gameObject.transform.Find(targetName).gameObject.SetActive(false);
+		}
+	}
 
 	void FixedUpdate()
 	{

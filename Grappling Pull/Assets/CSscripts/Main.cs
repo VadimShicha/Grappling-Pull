@@ -8,6 +8,11 @@ using TMPro;
 
 public class Main : MonoBehaviour
 {
+	[Header("Testing")]
+	[Tooltip("Should the game data load")]
+	public bool useLoader = true;
+
+
 	[Header("References")]
 	public GameObject player;
     public static GameObject playerInstacne;
@@ -30,8 +35,6 @@ public class Main : MonoBehaviour
 	public Image[] hearts;
 
 	[Header("Options")]
-	public static bool useSaver = false;
-
 	public int maxHealth = 3;
 	public static float health = 3;
 
@@ -61,8 +64,8 @@ public class Main : MonoBehaviour
 
 		playerInstacne = gameObject;
 
-		
-		loadGame();
+		if(useLoader == true)
+			loadGame();
 	}
 
 	void Update()
@@ -186,8 +189,6 @@ public class Main : MonoBehaviour
 
 	public void died()
 	{
-		print("You died!");
-
 		health = maxHealth;
 		SceneManager.LoadScene(SceneManager.GetSceneByName("SampleScene").name);
 
@@ -196,17 +197,14 @@ public class Main : MonoBehaviour
 
 	public static void saveGame()
 	{
-		if(Main.useSaver == true)
-		{
-			PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
-			PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
-			PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
-		}
+		PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
+		PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
+		PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
 	}
 
 	void loadGame()
 	{
-		if(PlayerPrefs.HasKey("CheckpointPosX") && useSaver)
+		if(PlayerPrefs.HasKey("CheckpointPosX"))
 		{
 			VarManager.checkpointPos.x = PlayerPrefs.GetFloat("CheckpointPosX");
 			VarManager.checkpointPos.y = PlayerPrefs.GetFloat("CheckpointPosY");
@@ -214,11 +212,6 @@ public class Main : MonoBehaviour
 
 			player.transform.position = VarManager.checkpointPos;
 		}
-	}
-
-	void setCheckpoint(Vector3 pos)
-	{
-		VarManager.checkpointPos = pos;
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)
