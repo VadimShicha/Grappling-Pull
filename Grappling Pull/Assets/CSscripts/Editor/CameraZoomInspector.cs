@@ -6,7 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(CameraZoom))]
 public class CameraZoomInspector : Editor
 {
-	string[] options = {"Set zoom", "Add amount"};
+	string[] options = {"Set zoom", "Add amount", "Reset zoom"};
 	
 	public override void OnInspectorGUI()
 	{

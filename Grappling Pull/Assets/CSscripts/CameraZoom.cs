@@ -8,15 +8,21 @@ public class CameraZoom : MonoBehaviour
 	public int zoomMode;
 	//0 - Set zoom
 	//1 - Add zoom
+	//2 - Reset zoom
 
 	public float setZoom = 0;
 	public float zoomAmount = 1;
 
-	[Tooltip("Disable the SpriteRenderer on this GameObject on PlayMode")]
+	[Tooltip("Disable the SpriteRenderer on this GameObject in PlayMode")]
 	public bool disableSprite = true;
+
+	bool ran = false;
+	float defaultZoom;
 
 	void Start()
 	{
+		defaultZoom = Camera.main.orthographicSize;
+
 		if(disableSprite == true)
 		{
 			gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -41,13 +47,22 @@ public class CameraZoom : MonoBehaviour
 
 	void zoom()
 	{
-		if(zoomMode == 0)
+		if(ran == false)
 		{
-			Camera.main.orthographicSize = setZoom;
-		}
-		else if(zoomMode == 1)
-		{
-			Camera.main.orthographicSize += zoomAmount;
+			if(zoomMode == 0)
+			{
+				Camera.main.orthographicSize = setZoom;
+			}
+			else if(zoomMode == 1)
+			{
+				Camera.main.orthographicSize += zoomAmount;
+			}
+			else if(zoomMode == 2)
+			{
+				Camera.main.orthographicSize = defaultZoom;
+			}
+
+			ran = true;
 		}
 	}
 }
