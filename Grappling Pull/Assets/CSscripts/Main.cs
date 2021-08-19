@@ -60,6 +60,7 @@ public class Main : MonoBehaviour
 
 		playerInstacne = gameObject;
 
+		
 		loadGame();
 	}
 
@@ -69,20 +70,10 @@ public class Main : MonoBehaviour
 
 		grounded = Physics2D.OverlapCircle(groundChecker.transform.position, groundRadius, groundMask);
 
+		
 		if(xAxisInput != 0)
 		{
-			Vector3 playerVel = player.GetComponent<Rigidbody2D>().velocity;
-
-			player.GetComponent<Rigidbody2D>().velocity = new Vector3(moveSpeed * xAxisInput, playerVel.y, playerVel.z);
-
-			if(xAxisInput > 0)
-			{
-				player.GetComponent<SpriteRenderer>().flipX = false;
-			}
-			else
-			{
-				player.GetComponent<SpriteRenderer>().flipX = true;
-			}
+			move(xAxisInput);
 		}
 
 		if(Input.GetKeyDown(KeyCode.Mouse0))
@@ -106,6 +97,8 @@ public class Main : MonoBehaviour
 
 			scope.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 		}
+		
+		
 
 		if(hitSlider.value >= hitSlider.maxValue)
 		{
@@ -144,6 +137,8 @@ public class Main : MonoBehaviour
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = Camera.main.nearClipPlane;
 		Vector3 moveVel = Vector3.MoveTowards(player.transform.position, Camera.main.ScreenToWorldPoint(mousePos), grappleSpeed) - player.transform.position;
+		
+
 		moveVel.x *= grapplePowerX;
 		moveVel.y *= grapplePowerY;
 
@@ -171,7 +166,22 @@ public class Main : MonoBehaviour
 		yield return new WaitForSeconds(grappleCooldown);
 		grappling = false;
 	}
-	
+
+	void move(float horizontal)
+	{
+		Vector3 playerVel = player.GetComponent<Rigidbody2D>().velocity;
+
+		player.GetComponent<Rigidbody2D>().velocity = new Vector3(moveSpeed * horizontal, playerVel.y, playerVel.z);
+
+		if(horizontal > 0)
+		{
+			player.GetComponent<SpriteRenderer>().flipX = false;
+		}
+		else
+		{
+			player.GetComponent<SpriteRenderer>().flipX = true;
+		}
+	}
 
 	void died()
 	{
