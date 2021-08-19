@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,3 +40,4 @@ public class CannonInspector : Editor
 		//go.GetComponent<Cannon>().targetMode = EditorGUILayout.Popup("Target mode", go.GetComponent<Cannon>().targetMode,  targetModeOptions);
 	}
 }
+*/

@@ -20,9 +20,14 @@ public class Cannon : MonoBehaviour
 
     public Collider2D target;
 
+    [Tooltip("The delay of this cannon")]
+    public float delay = 0;
+
     public float damage = 1;
 
+    [Tooltip("The delay between every shot")]
     public float fireRate = 3;
+    [Tooltip("The speed of the shot")]
     public float fireSpeed = 0.3f;
 
     public bool destroyBullets = true;
@@ -39,6 +44,13 @@ public class Cannon : MonoBehaviour
 
 	void FixedUpdate()
 	{
+        StartCoroutine("Tick");
+    }
+
+    IEnumerator Tick()
+	{
+        yield return new WaitForSeconds(delay);
+
         try
         {
             int bulletsLength = bullets.Count;
@@ -102,7 +114,7 @@ public class Cannon : MonoBehaviour
         {
             //handle exception
         }
-    }
+	}
 
 	IEnumerator FireShot()
 	{

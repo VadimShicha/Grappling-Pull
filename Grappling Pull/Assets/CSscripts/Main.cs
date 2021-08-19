@@ -59,6 +59,8 @@ public class Main : MonoBehaviour
 		}
 
 		playerInstacne = gameObject;
+
+		loadGame();
 	}
 
 	void Update()
@@ -92,14 +94,9 @@ public class Main : MonoBehaviour
 			}
 		}
 
-		if(Input.GetKeyDown(KeyCode.S))
+		if(Input.GetKeyDown(KeyCode.Backspace))
 		{
-			saveGame();
-		}
-
-		if(Input.GetKeyDown(KeyCode.L))
-		{
-			loadGame();
+			PlayerPrefs.DeleteAll();
 		}
 
 		//scope GameObject
@@ -186,28 +183,22 @@ public class Main : MonoBehaviour
 		VarManager.respawned = true;
 	}
 
-	void saveGame()
+	public static void saveGame()
 	{
-		PlayerPrefs.SetInt("CheckpointNumber", VarManager.checkpointNumber);
+		PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
+		PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
+		PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
 	}
 
 	void loadGame()
 	{
-		if(PlayerPrefs.HasKey("CheckpointNumber"))
+		if(PlayerPrefs.HasKey("CheckpointPosX"))
 		{
-			VarManager.checkpointNumber = PlayerPrefs.GetInt("CheckpointNumber");
+			VarManager.checkpointPos.x = PlayerPrefs.GetFloat("CheckpointPosX");
+			VarManager.checkpointPos.y = PlayerPrefs.GetFloat("CheckpointPosY");
+			VarManager.checkpointPos.z = PlayerPrefs.GetFloat("CheckpointPosZ");
 
-			GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
-
-			int checkpointsLength = checkpoints.Length;
-
-			for(int i = 0; i < checkpointsLength; i++)
-			{
-				if(checkpoints[i].GetComponent<Checkpoint>().checkpointNumber == VarManager.checkpointNumber)
-				{
-					player.transform.position = checkpoints[i].transform.position;
-				}
-			}
+			player.transform.position = VarManager.checkpointPos;
 		}
 	}
 

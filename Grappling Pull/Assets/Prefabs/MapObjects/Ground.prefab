@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6771019408327930523
+--- !u!1 &4336617235873671575
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6771019408327930524}
-  - component: {fileID: 6771019408327930525}
-  - component: {fileID: 6771019408327930522}
-  - component: {fileID: -5040346605028097773}
-  m_Layer: 0
-  m_Name: SpikesBlock
-  m_TagString: Spikes
+  - component: {fileID: 4336617235873671570}
+  - component: {fileID: 4336617235873671569}
+  - component: {fileID: 4336617235873671568}
+  - component: {fileID: 4336617235873671571}
+  m_Layer: 6
+  m_Name: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6771019408327930524
+--- !u!4 &4336617235873671570
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6771019408327930523}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -10, z: 0}
+  m_GameObject: {fileID: 4336617235873671575}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1971053207 &6771019408327930525
+--- !u!1971053207 &4336617235873671569
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6771019408327930523}
+  m_GameObject: {fileID: 4336617235873671575}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -76,22 +76,19 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: 663a0834146bb3441b9d850d058dacb4, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 52690d50afaf48840988991d29ded6cb, type: 3}
   m_Sprites:
-  - {fileID: 21300000, guid: 7d7d76e078ddeba4fa9cec4dc61216cd, type: 3}
-  - {fileID: 21300000, guid: 7f5df35687fe3b74d89c672b2330f37a, type: 3}
-  - {fileID: 21300000, guid: bec0eceb772af1b42859c5801fb2fdd2, type: 3}
-  - {fileID: 21300000, guid: 27f9285d9f059ab49bdb1bc5fee20857, type: 3}
+  - {fileID: 21300000, guid: a785274fe76e20f439ffddba6caf4938, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0, y: -0.00000023841858, z: -0.00020005}
-    m_Extent: {x: 3.0000002, y: 3, z: 0.00020005}
---- !u!114 &6771019408327930522
+    m_Center: {x: 0, y: -0.00000023841858, z: -0.0002}
+    m_Extent: {x: 2.5000002, y: 2.5, z: 0.0002}
+--- !u!114 &4336617235873671568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6771019408327930523}
+  m_GameObject: {fileID: 4336617235873671575}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90539df1cd5704abcb25fec9f3f5f84b, type: 3}
@@ -140,8 +137,8 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 0
       m_CornerMode: 1
-  m_SpriteShape: {fileID: 11400000, guid: 7292a5d41ddef6a46bdcc7d3a59231c4, type: 2}
-  m_FillPixelPerUnit: 100
+  m_SpriteShape: {fileID: 11400000, guid: 62ef151e2ec69db48a72002ff75157ef, type: 2}
+  m_FillPixelPerUnit: 10
   m_StretchTiling: 1
   m_SplineDetail: 16
   m_AdaptiveUV: 1
@@ -156,13 +153,13 @@ MonoBehaviour:
   m_EnableTangents: 0
   m_GeometryCached: 0
   m_UTess2D: 0
---- !u!68 &-5040346605028097773
+--- !u!68 &4336617235873671571
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6771019408327930523}
+  m_GameObject: {fileID: 4336617235873671575}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -172,9 +169,13 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -3.0000002, y: -0.00000023841858}
-  - {x: 3.0000002, y: -0.00000023841858}
+  - {x: -1.9990003, y: -1.9990001}
+  - {x: -2, y: 1.9990001}
+  - {x: 1.9990001, y: 2}
+  - {x: 2, y: -1.9990001}
+  - {x: -1.9490371, y: -1.9990001}
+  - {x: -1.9990003, y: -1.9990001}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentStartPoint: 1
   m_UseAdjacentEndPoint: 0

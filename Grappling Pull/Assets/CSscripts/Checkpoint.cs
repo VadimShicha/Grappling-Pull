@@ -31,6 +31,8 @@ public class Checkpoint : MonoBehaviour
 			VarManager.checkpointPos = gameObject.transform.position;
 			VarManager.checkpointNumber = checkpointNumber;
 
+			Main.saveGame();
+
 			checkpointParticle.Play();
 			StartCoroutine("Particle");
 		}
