@@ -18,11 +18,14 @@ public class Main : MonoBehaviour
     public static GameObject playerInstacne;
 
 	public GameObject scope;
+	public GameObject pauseMenu;
+
+	public TMP_Text checkpointCounter;
 
 	public Sprite emptyHeart;
 	public Sprite halfHeart;
 	public Sprite fullHeart;
-
+	
 	public Sprite emptyBattery;
 	public Sprite fullBattery;
 
@@ -54,6 +57,7 @@ public class Main : MonoBehaviour
 	bool grappling = false;
 	bool grounded = false;
 	bool dead = false;
+	bool paused = false;
 
 	void Start()
 	{
@@ -108,6 +112,23 @@ public class Main : MonoBehaviour
 		{
 			died();
 		}
+
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			//resume the game
+			if(paused == true)
+			{
+				paused = false;
+				resumeButtonClick();
+			}
+			//pause the game
+			else if(paused == false)
+			{
+				paused = true;
+				pauseGame();
+			}
+		}
+
 
 		if(hitSlider.value >= hitSlider.maxValue)
 		{
@@ -202,6 +223,27 @@ public class Main : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetSceneByName("SampleScene").name);
 
 		VarManager.respawned = true;
+	}
+
+	public void pauseGame()
+	{
+		paused = true;
+		Time.timeScale = 0;
+		pauseMenu.SetActive(true);
+		checkpointCounter.text = "Checkpoint: " + VarManager.checkpointNumber;
+	}
+
+	public void resumeButtonClick()
+	{
+		paused = false;
+		Time.timeScale = 1;
+		pauseMenu.SetActive(false);
+	}
+
+	public void exitButtonClick()
+	{
+		Time.timeScale = 1;
+		SceneManager.LoadScene("MenuScene");
 	}
 
 	public static void saveGame()
