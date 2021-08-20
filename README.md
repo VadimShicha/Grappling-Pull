@@ -1,5 +1,5 @@
 Grappling-Pull
 
-A "cool" grappling game in Unity
+A grappling "game" in Unity
 
 Blah Blah Blah
