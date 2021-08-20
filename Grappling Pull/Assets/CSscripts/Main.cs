@@ -20,6 +20,7 @@ public class Main : MonoBehaviour
 	public GameObject scope;
 
 	public Sprite emptyHeart;
+	public Sprite halfHeart;
 	public Sprite fullHeart;
 
 	public Sprite emptyBattery;
@@ -101,8 +102,12 @@ public class Main : MonoBehaviour
 
 			scope.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 		}
-		
-		
+
+		//restarting
+		if(Input.GetKeyDown(KeyCode.R))
+		{
+			died();
+		}
 
 		if(hitSlider.value >= hitSlider.maxValue)
 		{
@@ -121,6 +126,10 @@ public class Main : MonoBehaviour
 				if(health >= i + 1)
 				{
 					hearts[i].sprite = fullHeart;
+				}
+				else if(health >= i + 0.5f)
+				{
+					hearts[i].sprite = halfHeart;
 				}
 				else
 				{
