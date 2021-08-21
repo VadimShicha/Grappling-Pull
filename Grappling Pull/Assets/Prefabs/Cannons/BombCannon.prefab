@@ -99,7 +99,7 @@ MonoBehaviour:
   bullet: {fileID: 2213503546011034052, guid: f425ed1bb0db1d44693681062ff314b0, type: 3}
   target: {fileID: 1626588085606362276}
   delay: 0
-  damage: 1.5
+  damage: 2
   fireRate: 3
   fireSpeed: 6
   destroyBullets: 1

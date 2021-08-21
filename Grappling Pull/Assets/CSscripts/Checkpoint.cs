@@ -32,6 +32,7 @@ public class Checkpoint : MonoBehaviour
 			VarManager.checkpointNumber = checkpointNumber;
 
 			Main.saveGame();
+			Main.health = Main.playerInstacne.GetComponent<Main>().maxHealth;
 
 			checkpointParticle.Play();
 			StartCoroutine("Particle");
