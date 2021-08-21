@@ -18,7 +18,7 @@ public class Main : MonoBehaviour
     public static GameObject playerInstacne;
 
 	public GameObject scope;
-	public GameObject pauseMenu;
+	public GameObject[] pauseMenu;
 
 	public TMP_Text checkpointCounter;
 
@@ -229,7 +229,12 @@ public class Main : MonoBehaviour
 	{
 		paused = true;
 		Time.timeScale = 0;
-		pauseMenu.SetActive(true);
+
+		for(int i = 0; i < pauseMenu.Length; i++)
+		{
+			pauseMenu[i].SetActive(true);
+		}
+
 		checkpointCounter.text = "Checkpoint: " + VarManager.checkpointNumber;
 	}
 
@@ -237,7 +242,11 @@ public class Main : MonoBehaviour
 	{
 		paused = false;
 		Time.timeScale = 1;
-		pauseMenu.SetActive(false);
+
+		for(int i = 0; i < pauseMenu.Length; i++)
+		{
+			pauseMenu[i].SetActive(false);
+		}
 	}
 
 	public void exitButtonClick()
