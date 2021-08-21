@@ -8,17 +8,14 @@ using TMPro;
 
 public class Main : MonoBehaviour
 {
-	[Header("Testing")]
-	[Tooltip("Should the game data load")]
-	public bool useLoader = true;
-
-
 	[Header("References")]
 	public GameObject player;
     public static GameObject playerInstacne;
 
 	public GameObject scope;
 	public GameObject[] pauseMenu;
+
+	public GameObject[] winScreen;
 
 	public TMP_Text checkpointCounter;
 
@@ -78,8 +75,10 @@ public class Main : MonoBehaviour
 
 		playerInstacne = gameObject;
 
-		if(useLoader == true)
-			loadGame();
+		if(VarManager.checkpointPos != Vector3.zero)
+		{
+			player.transform.position = VarManager.checkpointPos;
+		}
 	}
 
 	void Update()
@@ -270,32 +269,33 @@ public class Main : MonoBehaviour
 		SceneManager.LoadScene("MenuScene");
 	}
 
+	public void homeButtonClick()
+	{
+		Time.timeScale = 1;
+		SceneManager.LoadScene("MenuScene");
+	}
+
 	void win()
 	{
-		
-	}
+		if(won == true)
+			return;
 
-	public static void saveGame()
-	{
-		PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
-		PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
-		PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
+		VarManager.wins++;
+		VarManager.checkpointPos = Vector3.zero;
+		VarManager.checkpointNumber = 0;
+		Time.timeScale = 0;
 
-		PlayerPrefs.SetInt("Wins", VarManager.wins);
-	}
-
-	void loadGame()
-	{
-		if(PlayerPrefs.HasKey("CheckpointPosX"))
+		for(int i = 0; i < winScreen.Length; i++)
 		{
-			VarManager.checkpointPos.x = PlayerPrefs.GetFloat("CheckpointPosX");
-			VarManager.checkpointPos.y = PlayerPrefs.GetFloat("CheckpointPosY");
-			VarManager.checkpointPos.z = PlayerPrefs.GetFloat("CheckpointPosZ");
-
-			player.transform.position = VarManager.checkpointPos;
+			winScreen[i].SetActive(true);
 		}
+
+		VarManager.saveGame();
+
+		won = true;
 	}
 
+	
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		if(collision.gameObject.CompareTag("Spikes"))
@@ -308,7 +308,6 @@ public class Main : MonoBehaviour
 	{
 		if(collision.CompareTag("House"))
 		{
-			won = true;
 			win();
 		}
 	}

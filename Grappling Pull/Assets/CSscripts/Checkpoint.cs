@@ -31,7 +31,7 @@ public class Checkpoint : MonoBehaviour
 			VarManager.checkpointPos = gameObject.transform.position;
 			VarManager.checkpointNumber = checkpointNumber;
 
-			Main.saveGame();
+			VarManager.saveGame();
 			Main.health = Main.playerInstacne.GetComponent<Main>().maxHealth;
 
 			checkpointParticle.Play();
