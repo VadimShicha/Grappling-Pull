@@ -8,4 +8,6 @@ public class VarManager : MonoBehaviour
     public static int checkpointNumber;
     public static Vector3 checkpointPos;
     public static bool respawned;
+    //how many times you have beaten the game
+    public static int wins;
 }

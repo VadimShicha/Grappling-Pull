@@ -54,10 +54,19 @@ public class Main : MonoBehaviour
 	public float grapplePowerX = 5;
 	public float grapplePowerY = 9;
 
+	[Header("Win Options")]
+	public GameObject winChecker;
+	public float winRadius = 3;
+
+	public LayerMask winMask;
+
+	public Color winCameraColor = Color.blue;
+
 	bool grappling = false;
 	bool grounded = false;
 	bool dead = false;
 	bool paused = false;
+	bool won = false;
 
 	void Start()
 	{
@@ -163,6 +172,12 @@ public class Main : MonoBehaviour
 		{
 			died();
 		}
+
+		//check if the player has reached the end
+		if(Physics2D.OverlapCircle(player.transform.position, winRadius, winMask) == winChecker.GetComponent<Collider2D>())
+		{
+			Camera.main.backgroundColor = winCameraColor;
+		}
 	}
 
 	
@@ -255,11 +270,18 @@ public class Main : MonoBehaviour
 		SceneManager.LoadScene("MenuScene");
 	}
 
+	void win()
+	{
+		
+	}
+
 	public static void saveGame()
 	{
 		PlayerPrefs.SetFloat("CheckpointPosX", VarManager.checkpointPos.x);
 		PlayerPrefs.SetFloat("CheckpointPosY", VarManager.checkpointPos.y);
 		PlayerPrefs.SetFloat("CheckpointPosZ", VarManager.checkpointPos.z);
+
+		PlayerPrefs.SetInt("Wins", VarManager.wins);
 	}
 
 	void loadGame()
@@ -282,9 +304,21 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		if(collision.CompareTag("House"))
+		{
+			won = true;
+			win();
+		}
+	}
+
 	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.cyan;
 		Gizmos.DrawWireSphere(groundChecker.transform.position, groundRadius);
+
+		Gizmos.color = Color.magenta;
+		Gizmos.DrawWireSphere(player.transform.position, winRadius);
 	}
 }
